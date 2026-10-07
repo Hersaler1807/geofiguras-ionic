@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>GeoFiguras</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <!-- Sección Triángulos -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Clasificación de Triángulos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input label="Lado a" labelPlacement="stacked" type="number" [(ngModel)]="ladoA"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Lado b" labelPlacement="stacked" type="number" [(ngModel)]="ladoB"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Lado c" labelPlacement="stacked" type="number" [(ngModel)]="ladoC"></ion-input>
+      </ion-item>
+      <ion-button expand="block" class="ion-margin-top" (click)="clasificar()">CLASIFICAR</ion-button>
+      
+      @if (resultado) {
+        <ion-card [color]="resultado.valido ? 'success' : 'danger'" class="ion-margin-top">
+          <ion-card-content>
+            <h2>{{ resultado.tipo }}</h2>
+            <p>{{ resultado.mensaje }}</p>
+            @if (resultado.valido) {
+              <p>Perímetro: {{ resultado.perimetro }} | Área: {{ resultado.area }} u²</p>
+            }
+          </ion-card-content>
+        </ion-card>
+      }
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Sección Polígonos -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Ángulos de Polígonos (for)</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input label="Lados máximos (N)" labelPlacement="stacked" type="number" [(ngModel)]="ladosMaximos" (ionInput)="generarTabla()"></ion-input>
+      </ion-item>
+      <ion-list>
+        @for (p of poligonos; track p.lados) {
+          <ion-item>
+            <ion-label>{{ p.nombre }} ({{ p.lados }} lados) · Suma: {{ p.sumaAngulos }}° · Int: {{ p.anguloInterior }}°</ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Sección Fibonacci -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Cuadrados de Fibonacci (while)</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input label="Límite del lado" labelPlacement="stacked" type="number" [(ngModel)]="limiteFib" (ionInput)="dibujarFibonacci()"></ion-input>
+      </ion-item>
+      <p class="ion-margin-top">Lados generados: <strong>{{ ladosFib.join(', ') }}</strong></p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
